@@ -92,3 +92,22 @@ flowchart
     mainTank --drain--> waste --> treatment --> sludge
     treatment --> sterile --> recovered -->nutrient --> mainTank
 ```
+
+## MQTT Sequence
+
+From William
+```mermaid
+sequenceDiagram
+    Growing cell->>MQTT Broker: CONNECT
+    MQTT Broker->>Growing cell: CONNACK
+    Growing cell->>MQTT Broker: SUBSCRIBE(Topic: ..., Qos: 1)
+    loop Program loop
+        alt Normal operation
+            MQTT Broker->>Growing cell: PUBLISH(Topic: ..., Qos: 1)
+            Growing cell->>MQTT Broker: PUBACK
+        else issue detected
+            Growing cell->>MQTT Broker: PUBLISH(Payload: state, Qos: 1)
+            MQTT Broker->>Growing cell: PUBACK
+        end
+    end
+```
