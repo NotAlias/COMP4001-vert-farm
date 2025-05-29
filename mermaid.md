@@ -124,7 +124,7 @@ subgraph cell[Grow Cell]
 
     end
 
-    subgraph camera[Cam Sensor]
+    subgraph camera[Cam Sensor x2]
         esp[ESP32-S3 Cam]
         ov[OV5640]
         esp<--SCCB (I2C)-->ov
@@ -134,13 +134,23 @@ subgraph cell[Grow Cell]
     dht11[Temp and 
         Humidity sensor
         DHT11]
+    acdc[AC-DC Converter]
+    relay[Relay 5V]
+    acdcLED[AC-DC Converter
+        LED strips]
+    LEDs[LED Strips x4]
 
-
+    relay --240V AC--> acdcLED --400W @12V --> LEDs
+    compute --On/Off--> relay
+    acdc --5V micro USB--> compute
     compute <--USB--> camera
     compute <-- one-Wire--> dht11
+    compute --5V--> dht11
 end
 
-switch <--ethernet--> compute
+powr --240V AC--> acdc
+powr --240V AC--> relay
+switch <--ethernet---> compute
 ```
 
 ## MQTT Sequence
