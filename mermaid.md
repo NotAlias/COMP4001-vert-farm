@@ -116,8 +116,8 @@ powr[Mains Power Bus]
 data[LAN Network]
 
 switch[Network Switch]
-
-data <--> switch
+powr --Power--> switch
+data <--2x Ethernet--> switch
 
 subgraph cell[Grow Cell]
     subgraph compute[Raspberry Pi]
