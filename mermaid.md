@@ -93,6 +93,56 @@ flowchart
     treatment --> sterile --> recovered -->nutrient --> mainTank
 ```
 
+## Electronics
+
+```mermaid
+flowchart
+
+cam[ov5640]
+esp[esp32]
+240v[Mains 240V]
+lights[LED lights]
+humid[humidity sensor]
+ph[Ph Sensor]
+
+
+```
+
+### Cell
+
+```mermaid
+flowchart TD
+powr[Mains Power Bus]
+data[LAN Network]
+
+switch[Network Switch]
+
+data <--> switch
+
+subgraph cell[Grow Cell]
+    subgraph compute[Raspberry Pi]
+
+    end
+
+    subgraph camera[Cam Sensor]
+        esp[ESP32-S3 Cam]
+        ov[OV5640]
+        esp<--SCCB (I2C)-->ov
+        ov--DVP-->esp
+    end
+
+    dht11[Temp and 
+        Humidity sensor
+        DHT11]
+
+
+    compute <--USB--> camera
+    compute <-- one-Wire--> dht11
+end
+
+switch <--ethernet--> compute
+```
+
 ## MQTT Sequence
 
 From William
